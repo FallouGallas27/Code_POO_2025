@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<?PowerDesigner AppLocale="Cp1252" ID="{BA0118DC-B45F-4559-B8C4-9A63A45B72C8}" Label="" Name="ModeleLibre_1" Objects="2" Symbols="0" Type="{A3D646C2-7F72-4197-8A31-32275EB456B4}" signature="FRM_MODEL_XML" version="15.1.0.2840"?>
+<!-- Veuillez ne pas modifier ce fichier -->
+
+<Model xmlns:a="attribute" xmlns:c="collection" xmlns:o="object">
+
+<o:RootObject Id="o1">
+<c:Children>
+<o:Model Id="o2">
+<a:ObjectID>BA0118DC-B45F-4559-B8C4-9A63A45B72C8</a:ObjectID>
+<a:Name>ModeleLibre_1</a:Name>
+<a:Code>ModeleLibre_1</a:Code>
+<c:FreeDiagrams>
+<o:FreeDiagram Id="o3">
+<a:ObjectID>F6CCE703-8381-4515-AF3F-1D8A70F0E1C7</a:ObjectID>
+<a:Name>Diagramme_1</a:Name>
+<a:Code>Diagramme_1</a:Code>
+</c:FreeDiagrams>
+<c:DefaultDiagram>
+<o:FreeDiagram Ref="o3"/>
+</c:DefaultDiagram>
+</o:Model>
+</c:Children>
+</o:RootObject>
+
+</Model>

@@ -1,0 +1,250 @@
+#ifndef PILE_H
+#define PILE_H
+
+#include <iostream>
+using namespace std;
+
+// Structure pour un nœud de la liste chaînée
+struct Noeud {
+    int valeur;
+    Noeud* suivant;
+    
+    Noeud(int val) : valeur(val), suivant(nullptr) {}
+};
+
+class Pile {
+private:
+    Noeud* sommet_ptr;  // Pointeur vers le sommet de la pile
+    int nbelmt;         // Nombre d'éléments
+    
+public:
+    Pile();
+    ~Pile();
+    void empiler(int);
+    int depiler();
+    int sommet();
+    bool est_vide();
+    void affiche();
+    Pile(const Pile&);              // Constructeur de copie
+    Pile& operator=(const Pile&);   // Opérateur d'affectation
+    int evaluation(char*, int);
+};
+
+#endif
+
+// ========== IMPLÉMENTATION ==========
+
+#include <cstring>
+#include <cctype>
+
+Pile::Pile() {
+    sommet_ptr = nullptr;
+    nbelmt = 0;
+    cout << "Appel du constructeur " << this << endl;
+}
+
+Pile::~Pile() {
+    cout << "Appel du destructeur " << this << endl;
+    
+    // Libérer tous les nœuds
+    while (!est_vide()) {
+        depiler();
+    }
+}
+
+void Pile::empiler(int val) {
+    Noeud* nouveau = new Noeud(val);
+    nouveau->suivant = sommet_ptr;
+    sommet_ptr = nouveau;
+    nbelmt++;
+}
+
+int Pile::depiler() {
+    if (est_vide()) {
+        cout << "La pile est vide\n";
+        return -1;
+    }
+    
+    Noeud* temp = sommet_ptr;
+    int valeur = temp->valeur;
+    sommet_ptr = sommet_ptr->suivant;
+    delete temp;
+    nbelmt--;
+    
+    return valeur;
+}
+
+int Pile::sommet() {
+    if (est_vide()) {
+        cout << "Pile vide.\n";
+        return -1;
+    }
+    
+    return sommet_ptr->valeur;
+}
+
+bool Pile::est_vide() {
+    return (sommet_ptr == nullptr);
+}
+
+void Pile::affiche() {
+    if (est_vide()) {
+        cout << "Pile : (vide)" << endl;
+        return;
+    }
+    
+    cout << "Pile : ";
+    Noeud* current = sommet_ptr;
+    
+    // Afficher depuis le sommet vers le bas
+    while (current != nullptr) {
+        cout << current->valeur << " ";
+        current = current->suivant;
+    }
+    cout << "(sommet à gauche)" << endl;
+}
+
+Pile::Pile(const Pile& p) {
+    sommet_ptr = nullptr;
+    nbelmt = 0;
+    
+    if (p.est_vide()) {
+        cout << "Le constructeur de recopie\n";
+        return;
+    }
+    
+    // Utiliser une pile temporaire pour maintenir l'ordre
+    Pile temp;
+    Noeud* current = p.sommet_ptr;
+    
+    // Empiler dans temp (inverse l'ordre)
+    while (current != nullptr) {
+        temp.empiler(current->valeur);
+        current = current->suivant;
+    }
+    
+    // Empiler dans this (remet dans le bon ordre)
+    while (!temp.est_vide()) {
+        empiler(temp.depiler());
+    }
+    
+    cout << "Le constructeur de recopie\n";
+}
+
+Pile& Pile::operator=(const Pile& p) {
+    if (this == &p) {
+        return *this;
+    }
+    
+    // Vider la pile actuelle
+    while (!est_vide()) {
+        depiler();
+    }
+    
+    if (!p.est_vide()) {
+        // Utiliser une pile temporaire pour maintenir l'ordre
+        Pile temp;
+        Noeud* current = p.sommet_ptr;
+        
+        // Empiler dans temp (inverse l'ordre)
+        while (current != nullptr) {
+            temp.empiler(current->valeur);
+            current = current->suivant;
+        }
+        
+        // Empiler dans this (remet dans le bon ordre)
+        while (!temp.est_vide()) {
+            empiler(temp.depiler());
+        }
+    }
+    
+    return *this;
+}
+
+int Pile::evaluation(char* expression, int taille) {
+    int resultat = 0;
+    
+    for (int i = 0; i < taille; i++) {
+        if (isdigit(expression[i])) {
+            empiler(expression[i] - '0');  // Conversion char vers int
+        } else {
+            if (nbelmt < 2) {
+                cout << "Erreur : pas assez d'opérandes pour " << expression[i] << endl;
+                return -1;
+            }
+            
+            int b = depiler();
+            int a = depiler();
+            
+            switch (expression[i]) {
+                case '+': resultat = a + b; break;
+                case '-': resultat = a - b; break;
+                case '*': resultat = a * b; break;
+                case '/': 
+                    if (b == 0) {
+                        cout << "Erreur : division par zéro" << endl;
+                        return -1;
+                    }
+                    resultat = a / b; 
+                    break;
+                default:
+                    cout << "Opérateur non reconnu : " << expression[i] << endl;
+                    return -1;
+            }
+            empiler(resultat);
+        }
+    }
+    
+    if (nbelmt != 1) {
+        cout << "Erreur : expression malformée" << endl;
+        return -1;
+    }
+    
+    return depiler();
+}
+
+// ========== FONCTION DE TEST ==========
+
+int f(Pile p) {
+    Pile c(p);
+    return c.sommet();
+}
+
+// ========== MAIN ==========
+
+int main() {
+    Pile p;
+    p.empiler(1);
+    p.empiler(2);
+    p.empiler(3);
+    p.empiler(4);
+    p.empiler(5);
+    p.affiche();
+    
+    p.depiler();
+    p.depiler();
+    p.affiche();
+    
+    if (p.est_vide()) {
+        cout << "La pile est vide\n";
+    } else {
+        cout << "La pile n'est pas vide\n";
+    }
+    
+    cout << "Le sommet de la pile " << p.sommet() << endl;
+    
+    Pile k(p), g;
+    p.empiler(4);
+    k.affiche();
+    
+    g = k = p;
+    cout << "L'operateur = \n";
+    g.affiche();
+    
+    Pile v;
+    char exp[] = "56+2*";  // équivalent à (5 + 6) * 2 = 22
+    int resultat = v.evaluation(exp, strlen(exp));
+    cout << "Le resultat de l'expression : " << resultat << endl;
+    
+    return 0;
+}

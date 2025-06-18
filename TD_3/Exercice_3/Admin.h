@@ -12,6 +12,7 @@ public:
     string getFonction()const;
     Admin (const Admin &);
     Admin& operator=( Admin&);
+    void affiche();
 };
 
 #endif

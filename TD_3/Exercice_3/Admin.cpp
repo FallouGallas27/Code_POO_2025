@@ -26,3 +26,8 @@ Admin& Admin::operator=( Admin& a ){
     cout<<"L'operateur d'affectation de Administratif\n";
     return *this;
 }
+
+void Admin::affiche(){
+    Salarie::affiche();
+    cout<<" Fonction "<<fonction<<endl;
+}

@@ -28,5 +28,6 @@ public:
     void ajoutMatiere(string);
     Prof(const Prof&);
     Prof& operator=(Prof&);
+    void affiche();
 };
 #endif

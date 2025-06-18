@@ -29,3 +29,6 @@ Salarie& Salarie::operator=(const Salarie& S){
     }
     
 }
+void Salarie::affiche(){
+    cout<<"Prenom "<<prenom<<" Nom "<<nom;
+}

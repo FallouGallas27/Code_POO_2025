@@ -14,7 +14,7 @@ public:
     ~Salarie();
     string getNom()const;
     string getPrenom()const;
-    void Affiche();
+    void affiche();
     Salarie (const Salarie&);
     Salarie& operator=(const Salarie&);
 };

@@ -1,6 +1,6 @@
 #include"liste.h"
 liste::liste(int n){
-    cout<<"\nCont d'une liste vide au plus "<<max<<"elements"<<endl;
+    //cout<<"\nCont d'une liste vide au plus "<<max<<"elements"<<endl;
     max=n;
     m_elmt=0;
     p=new Animal*[max];

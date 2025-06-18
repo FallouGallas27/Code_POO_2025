@@ -67,7 +67,19 @@ Prof& Prof::operator=( Prof& p) {
             delete matiere[i];
             matiere[i] = (p.matiere[i] != nullptr) ? new string(*p.matiere[i]) : nullptr;
         }
-        cout << "Opérateur d'affectation de Prof\n";
+        cout << "Operateur d'affectation de Prof\n";
     }
     return *this;
+}
+
+void Prof::affiche(){
+    Salarie::affiche();
+    cout<<" Diplome "<<diplome<<endl;;
+    cout<<"Les matieres enseignes \n";
+    for (int  i = 0; i < 10; i++)
+    {
+        if(matiere[i] != nullptr)
+            cout<<iemeMatiere(i)<<" ";
+    }
+    cout<<endl;
 }
